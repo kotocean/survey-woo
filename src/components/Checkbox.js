@@ -15,7 +15,9 @@ class Checkbox extends React.Component{
         super(props)
         this.handleChange = this.handleChange.bind(this);
         this.name = this.props.name
-        this.updateOrders()
+        let answerValue = this.updateOrders()
+        console.log('constructor', answerValue)
+        this.updateTriggers(answerValue)
     }
 
     handleChange(event){
@@ -50,12 +52,14 @@ class Checkbox extends React.Component{
         let answers = this.props.answers
         let orders = question.orders
         if(!orders || orders.length<=0) return;
+        let answerValue = []
         orders.forEach(order=>{
             console.log(order)
             
             if(eval(order.isEnabled)){
                 if(order.type==='assign'){
                     this.props.updateAnswer({name: this.name, result: order.values})
+                    pushArrayToSet(order.values, answerValue)
                 }else if(order.type==='random'){
                     let num = order.num
                     let values = orders.values
@@ -73,15 +77,17 @@ class Checkbox extends React.Component{
                         pushArrayToSet(answers[this.name].value, result)
                     }
                     this.props.updateAnswer({name: this.name, result})
+                    pushArrayToSet(result, answerValue)
                 }
             }
         })
+        return answerValue
     }
     
     render(){
         let question = this.props.questions[this.name]
         let answers = this.props.answers
-        let answer = answers[this.name] 
+        let answer = answers[this.name]
 
         return (
         question&&<div>
