@@ -6,7 +6,7 @@ export const sample = {
             name: 'sex',
             type: 'radio',
             title: [{
-                value:"`${question.name}单选题`",
+                value:"`${question.type}单选题`",
                 subValue: "副标题：一些补充描述的文字内容。",
                 isVisible: 'true'
             }],
