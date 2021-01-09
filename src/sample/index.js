@@ -64,6 +64,15 @@ export const sample = {
                     num: 2
                 }
             ],
+            triggers: [
+                {
+                    type: 'transfer',
+                    target: {
+                        type: 'checkbox',
+                        name: 'hobbies'
+                    }
+                }
+            ],
             options: [
                 {
                     label: '晚上踢足球',
@@ -80,6 +89,23 @@ export const sample = {
                 {
                     label: '晚间游泳',
                     value: 'swimming'
+                }
+            ]
+        },
+        hobbies: {
+            type: 'checkbox',
+            name: 'hobbies',
+            title: [
+                {
+                    isVisible: 'true',
+                    value: "`Hobbies标题：复选题`",
+                    subValue: "副标题：一些描述内容"
+                }
+            ],
+            options: [
+                {
+                    label: '读书',
+                    value: 'reading'
                 }
             ]
         }

@@ -2,7 +2,7 @@ import React from "react"
 import { connect } from 'react-redux'
 
 import { updateAnswer, updateQuestion } from "../store"
-import {isVisible, randomUpdateValues, pushArrayToSet} from "../core/Utils"
+import {isVisible, randomUpdateValues, mergeArrayToSet, pushArrayToSet} from "../core/Utils"
 
 import {
     Card,
@@ -15,7 +15,7 @@ class Checkbox extends React.Component{
         super(props)
         this.handleChange = this.handleChange.bind(this);
         this.name = this.props.name
-        this.updateOrders(this.props.questions[this.name], this.props.answers)
+        this.updateOrders()
     }
 
     handleChange(event){
@@ -25,9 +25,29 @@ class Checkbox extends React.Component{
         let result = formData.getAll(this.name)
         console.log(result)
         this.props.updateAnswer({name: this.name, result})
+        this.updateTriggers(result)
     }
-
-    updateOrders(question, answers){
+    // 题目选中项发生变化时的动作触发事件
+    updateTriggers(answerValue){
+        let question = this.props.questions[this.name]
+        let triggers = question.triggers
+        if(!triggers||triggers.length<=0) return;
+        triggers.forEach(trigger=>{
+            if(trigger.type==='transfer'){
+                let target = trigger.target
+                if(target.type==='checkbox'){
+                    let targetOptions = this.props.questions[target.name].options
+                    let result = mergeArrayToSet(answerValue, question.options, targetOptions)
+                    console.log(result)
+                    this.props.updateQuestion({name: target.name, options: result})
+                }
+            }
+        })
+    }
+    // 关联题目的答案发生变化时，条件圈选事件处理
+    updateOrders(){
+        let question = this.props.questions[this.name]
+        let answers = this.props.answers
         let orders = question.orders
         if(!orders || orders.length<=0) return;
         orders.forEach(order=>{

@@ -4,7 +4,7 @@ export const optionsIncludes = function(options, value){
       if(JSON.stringify({
         label: option.label,
         value: option.value
-      })==value){
+      })===value){
         return true
       }
     }
@@ -18,7 +18,7 @@ export const optionsIncludes = function(options, value){
           if(!result.includes(rn)){
               result.push(rn)
           }
-          if(result.length==n) break
+          if(result.length===n) break
       }
       return result
     }
@@ -44,9 +44,59 @@ export const optionsIncludes = function(options, value){
       }
     })
   }
+
+  function getArrayOthers(strArray, objArray){
+    let result = []
+    for(var i in objArray){
+      var exist = false
+        for(var j in strArray){
+          var item = JSON.parse(strArray[j])
+          if(item.value===objArray[i].value){
+            exist = true
+            break;
+          }
+        }
+      if(!exist){
+        result.push({
+          label: objArray[i].label,
+          value: objArray[i].value
+        })
+      }
+    }
+    return result
+  }
+
+  function findNotExistItems(arr1, arr2){
+    let result=[]
+    for(var i in arr1){
+      var exist = false
+      let item = arr1[i]
+      if(Object.prototype.toString.call(item) === '[object String]' ){
+        item = JSON.parse(arr1[i])
+      }
+      for(var j in arr2){
+        if(item.value===arr2[j].value){
+          exist = true
+          break
+        }
+      }
+      if(!exist){
+        result.push(item)
+      }
+    }
+    return result
+  }
+
+  export const mergeArrayToSet = function(arr1, options1, arr2){
+    let result=findNotExistItems(arr1, arr2).concat(arr2)
+    let others = getArrayOthers(arr1, options1)
+    console.log(result, others)
+    let finalResult=findNotExistItems(result, others)
+    return finalResult
+  }
   
   export const isDisabled = function (expr, answers) {
-    return expr!='' && expr!=undefined && eval(expr)
+    return expr!=='' && expr!==undefined && eval(expr)
   }
   
   export const isVisible = function (expr, answers) {

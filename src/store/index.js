@@ -21,6 +21,8 @@ const surveySlice = createSlice({
     },
     updateQuestion: (state,action) => {
         console.log(action)
+        let {name, options} = action.payload
+        state.questions[name].options = options
     },
     initQuestions: (state, action)=>{
         console.log(action)
