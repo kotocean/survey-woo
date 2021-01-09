@@ -2,10 +2,10 @@ import React from "react"
 import { connect } from 'react-redux'
 
 import { updateAnswer, updateQuestion } from "../store"
-import {isVisible} from "../core/Utils"
+import {isVisible, randomUpdateValues, pushArrayToSet} from "../core/Utils"
 
 import {
-    Card, CardBody,
+    Card,
     CardTitle, CardSubtitle
   } from 'reactstrap';
 
@@ -15,6 +15,7 @@ class Checkbox extends React.Component{
         super(props)
         this.handleChange = this.handleChange.bind(this);
         this.name = this.props.name
+        this.updateOrders(this.props.questions[this.name], this.props.answers)
     }
 
     handleChange(event){
@@ -25,11 +26,42 @@ class Checkbox extends React.Component{
         console.log(result)
         this.props.updateAnswer({name: this.name, result})
     }
+
+    updateOrders(question, answers){
+        let orders = question.orders
+        if(!orders || orders.length<=0) return;
+        orders.forEach(order=>{
+            console.log(order)
+            
+            if(eval(order.isEnabled)){
+                if(order.type==='assign'){
+                    this.props.updateAnswer({name: this.name, result: order.values})
+                }else if(order.type==='random'){
+                    let num = order.num
+                    let values = orders.values
+                    if(!values||values.length<=0){
+                        values = []
+                        question.options.forEach(opt=>{
+                            values.push(JSON.stringify({
+                                label: opt.label,
+                                value: opt.value
+                            }))
+                        })
+                    }
+                    let result = randomUpdateValues(num, question.options.length, values)
+                    if(answers[this.name]){
+                        pushArrayToSet(answers[this.name].value, result)
+                    }
+                    this.props.updateAnswer({name: this.name, result})
+                }
+            }
+        })
+    }
     
     render(){
         let question = this.props.questions[this.name]
         let answers = this.props.answers
-        let answer = answers[this.name]
+        let answer = answers[this.name] 
 
         return (
         question&&<div>

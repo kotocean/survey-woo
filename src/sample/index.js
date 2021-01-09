@@ -6,10 +6,22 @@ export const sample = {
             name: 'sex',
             type: 'radio',
             title: [{
-                value:"`${question.type}单选题`",
+                value: "`标题：${question.type}单选题`",
                 subValue: "副标题：一些补充描述的文字内容。",
                 isVisible: 'true'
             }],
+            orders:[
+                {
+                    type: 'assign',
+                    isEnabled: 'true',
+                    values: [
+                        JSON.stringify({
+                            label: '男',
+                            value: 'male'
+                        })
+                    ]
+                }
+            ],
             options: [
                 {
                     label: '男',
@@ -25,23 +37,49 @@ export const sample = {
             name: 'likes',
             type: 'checkbox',
             title: [{
-                value:"`男-复选题`",
+                value:"`标题：男-复选题`",
                 isVisible: "answers['sex']&&answers['sex'].value==JSON.stringify({label:'男',value:'male'})"
             },{
-                value:"`女-复选题`",
+                value:"`标题：女-复选题`",
                 isVisible: "answers['sex']&&answers['sex'].value==JSON.stringify({label:'女',value:'female'})"
             },{
-                value:"`复选题`",
+                value:"`标题：复选题`",
                 isVisible: "answers['sex']==undefined||answers['sex'].value==undefined"
             }],
-            options: [
+            orders:[
                 {
-                    label: '男',
-                    value: 'male'
+                    type: 'assign',
+                    isEnabled: "answers['sex']&&answers['sex'].value==JSON.stringify({label:'男',value:'male'})",
+                    values: [
+                        JSON.stringify({
+                            label: '晚上踢足球',
+                            value: 'football'
+                        })
+                    ]
                 },
                 {
-                    label: '女',
+                    type: 'random',
+                    isEnabled: "answers['sex']&&answers['sex'].value==JSON.stringify({label:'男',value:'male'})",
+                    values: [],
+                    num: 2
+                }
+            ],
+            options: [
+                {
+                    label: '晚上踢足球',
+                    value: 'football'
+                },
+                {
+                    label: '白天打羽毛球',
                     value: 'female'
+                },
+                {
+                    label: '日间跑步',
+                    value: 'running'
+                },
+                {
+                    label: '晚间游泳',
+                    value: 'swimming'
                 }
             ]
         }

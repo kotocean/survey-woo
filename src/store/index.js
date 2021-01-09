@@ -34,3 +34,8 @@ export const { updateAnswer, updateQuestion, initQuestions } = surveySlice.actio
 export const store = configureStore({
   reducer: surveySlice.reducer
 })
+
+store.subscribe(()=>{
+  console.log("store.subscribe()..")
+  console.log(store.getState().answers)
+})

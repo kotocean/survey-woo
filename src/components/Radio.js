@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 import { updateAnswer, updateQuestion } from "../store"
 import {isVisible} from "../core/Utils"
 import {
-    Card, CardBody,
-    CardTitle, CardSubtitle
+    Card, CardTitle, CardSubtitle
   } from 'reactstrap';
 
 class Radio extends React.Component{
@@ -14,6 +13,8 @@ class Radio extends React.Component{
         super(props)
         this.handleChange = this.handleChange.bind(this);
         this.name = this.props.name
+        let question = this.props.questions[this.name]
+        this.updateOrders(question.orders)
     }
 
     handleChange(event){
@@ -23,13 +24,26 @@ class Radio extends React.Component{
         let result = formData.get(this.name)
         console.log(result)
         this.props.updateAnswer({name: this.name, result})
-        this.props.updateAnswer({name: 'likes', result: [result]})
+        // this.props.updateAnswer({name: 'likes', result: [result]})
+    }
+
+    updateOrders(orders){
+        if(!orders || orders.length<=0) return;
+        orders.map(order=>{
+            console.log(order)
+            
+            if(eval(order.isEnabled)){
+                if(order.type==='assign'){
+                    this.props.updateAnswer({name: this.name, result: order.values[0]})
+                }
+            }
+        })
     }
     
     render(){
         let question = this.props.questions[this.name]
         let answers = this.props.answers
-        let answer = answers[this.name]
+        let answer = answers[this.name]        
 
         return (
             question&&<div>

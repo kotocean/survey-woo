@@ -37,12 +37,13 @@ export const optionsIncludes = function(options, value){
     }
   
   export const pushArrayToSet = function(arr, result){
-      arr.forEach(function(t){
-        if(!result.includes(t)){
-          result.push(t)
-        }
-      })
-    }
+    if(!arr||arr.length<=0) return result;
+    arr.forEach(function(t){
+      if(!result.includes(t)){
+        result.push(t)
+      }
+    })
+  }
   
   export const isDisabled = function (expr, answers) {
     return expr!='' && expr!=undefined && eval(expr)
