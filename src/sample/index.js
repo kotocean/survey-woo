@@ -93,6 +93,12 @@ export const sample = {
                     ]
                 }
             ],
+            validations:[
+                {
+                    type: "required",
+                    isEnabled: "true"
+                }
+            ],
             options: [
                 {
                     isDisabled: "value&&value.includes(JSON.stringify({label: '白天打羽毛球',value: 'female'}))",
@@ -122,6 +128,12 @@ export const sample = {
                     isVisible: 'true',
                     value: "`Hobbies标题：复选题`",
                     subValue: "副标题：一些描述内容"
+                }
+            ],
+            validations:[
+                {
+                    type: "required",
+                    isEnabled: "true"
                 }
             ],
             options: [

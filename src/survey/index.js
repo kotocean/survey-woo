@@ -6,6 +6,7 @@ import {store} from "../store"
 import Question from "./Question"
 import { sample } from "../sample"
 import { Button } from 'reactstrap';
+import { validate } from "../core/Utils"
 
 class Survey extends React.Component{
     constructor(props){
@@ -16,6 +17,7 @@ class Survey extends React.Component{
     }
     handleSubmit(){
         alert(JSON.stringify(store.getState().answers))
+        validate(store.getState())
     }
     render(){
         console.log(sample)

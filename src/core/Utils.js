@@ -106,3 +106,29 @@ export const optionsIncludes = function(options, value){
   export const isVisible = function (expr, answers) {
     return expr && eval(expr)
   }
+
+  export const validate = function(state){
+    console.log(state)
+    let {questions, answers} = state
+    let result = []
+    for(var j in questions){
+      const question = questions[j]
+      const name = question.name
+      var validations = question.validations
+      var value = answers[name]?answers[name].value:undefined
+      for(var i in validations){
+        var validation = validations[i]
+        if(isEnabled(validation.isEnabled, value, answers)){
+          if(validation.type==='required'){
+            if(question.type==="checkbox"){
+              if(!value||value.length<=0){
+                result.push({name: name, type: validation.type})
+              }
+            }
+          }
+        }
+      }
+    }
+    console.log(result)
+    return result
+  }
