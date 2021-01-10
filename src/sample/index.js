@@ -93,12 +93,7 @@ export const sample = {
                     ]
                 }
             ],
-            validations:[
-                {
-                    type: "required",
-                    isEnabled: "true"
-                }
-            ],
+            validations:[],
             options: [
                 {
                     isDisabled: "value&&value.includes(JSON.stringify({label: '白天打羽毛球',value: 'female'}))",

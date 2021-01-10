@@ -2,10 +2,10 @@ import React from "react"
 import { connect } from 'react-redux'
 
 import { updateAnswer, updateQuestion } from "../store"
-import {isVisible, isEnabled, isDisabled, randomUpdateValues, mergeArrayToSet, pushArrayToSet} from "../core/Utils"
+import {isVisible, isEnabled, isDisabled, randomUpdateValues, mergeArrayToSet, pushArrayToSet, validate} from "../core/Utils"
 
 import {
-    Card,
+    Card, Badge,
     CardTitle, CardSubtitle
   } from 'reactstrap';
 
@@ -105,6 +105,16 @@ class Checkbox extends React.Component{
         })
         return answerValue
     }
+
+    validationsIncludes(validations, type){
+        if(!validations) return false;
+        for(var i in validations){
+            if(isEnabled(validations[i].isEnabled, undefined, this.props.answers)&&validations[i].type===type){
+                return true
+            }
+        }
+        return false
+    }
     
     render(){
         let question = this.props.questions[this.name]
@@ -116,7 +126,9 @@ class Checkbox extends React.Component{
             <Card body>
                 { question.title.map((item,index)=>
                     isVisible(item.isVisible,answers)&&<div key={index} >
-                        <CardTitle tag="h5">{ eval(item.value) }</CardTitle>
+                        <CardTitle tag="h5">{ eval(item.value) }
+                        {this.validationsIncludes(question.validations, 'required')&&<Badge color="warning">必填</Badge>}
+                        </CardTitle>
                         <CardSubtitle tag="h6" className="mb-2 text-muted">{ item.subValue} </CardSubtitle>
                     </div>
                     )}
