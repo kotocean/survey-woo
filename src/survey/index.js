@@ -16,8 +16,14 @@ class Survey extends React.Component{
         store.dispatch({type:'survey/initQuestions',payload: {questions: this.questions}})
     }
     handleSubmit(){
-        alert(JSON.stringify(store.getState().answers))
-        validate(store.getState())
+        let result = validate(store.getState())
+        if(result.length>0){
+            // 验证不通过
+            alert(JSON.stringify(result))
+        }else{
+            // 验证通过，可以提交问卷答案
+            alert(JSON.stringify(store.getState().answers))
+        }
     }
     render(){
         console.log(sample)
