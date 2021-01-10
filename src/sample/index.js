@@ -71,6 +71,26 @@ export const sample = {
                         type: 'checkbox',
                         name: 'hobbies'
                     }
+                },
+                {
+                    type: "mutex",
+                    isEnabled: "value&&value.includes(JSON.stringify({label: '白天打羽毛球',value: 'female'}))",
+                    options: [
+                        {
+                            label: '晚上踢足球',
+                            value: 'football'
+                        }
+                    ]
+                },
+                {
+                    type: "mutex",
+                    isEnabled: "answers['sex']&&answers['sex'].value===JSON.stringify({label: '男',value: 'male'})",
+                    options: [
+                        {
+                            label: '日间跑步',
+                            value: 'running'
+                        }
+                    ]
                 }
             ],
             options: [

@@ -2,7 +2,7 @@ import React from "react"
 import { connect } from 'react-redux'
 
 import { updateAnswer, updateQuestion } from "../store"
-import {isVisible, randomUpdateValues, mergeArrayToSet, pushArrayToSet} from "../core/Utils"
+import {isVisible, isEnabled, randomUpdateValues, mergeArrayToSet, pushArrayToSet} from "../core/Utils"
 
 import {
     Card,
@@ -36,12 +36,34 @@ class Checkbox extends React.Component{
         if(!triggers||triggers.length<=0) return;
         triggers.forEach(trigger=>{
             if(trigger.type==='transfer'){
+                // 问题间选中项传输，拷贝
                 let target = trigger.target
                 if(target.type==='checkbox'){
                     let targetOptions = this.props.questions[target.name].options
                     let result = mergeArrayToSet(answerValue, question.options, targetOptions)
                     console.log(result)
                     this.props.updateQuestion({name: target.name, options: result})
+                }
+            }else if(trigger.type==='mutex'){
+                console.log('mutex...')
+                // 选项间互斥
+                if(isEnabled(trigger.isEnabled, answerValue, this.props.answers)){
+                    let removeIndexs = []
+                    for(var i in trigger.options){
+                        var opt = trigger.options[i]
+                        var index = answerValue.indexOf(JSON.stringify(opt))
+                        if(index>=0){
+                            removeIndexs.push(index.toString())
+                        }
+                    }
+                    let newAnswerValue = []
+                    for(var j in answerValue){
+                        if(!removeIndexs.includes(j)){
+                            newAnswerValue.push(answerValue[j])
+                        }
+                    }
+                    answerValue = newAnswerValue // 更新局部变量，处理多个mutex时store的异步更新有延时
+                    this.props.updateAnswer({name: this.name, result: newAnswerValue})
                 }
             }
         })

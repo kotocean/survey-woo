@@ -98,6 +98,10 @@ export const optionsIncludes = function(options, value){
   export const isDisabled = function (expr, answers) {
     return expr!=='' && expr!==undefined && eval(expr)
   }
+
+  export const isEnabled = function (expr, value, answers) {
+    return expr && eval(expr)
+  }
   
   export const isVisible = function (expr, answers) {
     return expr && eval(expr)
