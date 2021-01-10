@@ -95,6 +95,7 @@ export const sample = {
             ],
             options: [
                 {
+                    isDisabled: "value&&value.includes(JSON.stringify({label: '白天打羽毛球',value: 'female'}))",
                     label: '晚上踢足球',
                     value: 'football'
                 },
@@ -103,6 +104,7 @@ export const sample = {
                     value: 'female'
                 },
                 {
+                    isDisabled: "answers['sex']&&answers['sex'].value===JSON.stringify({label: '男',value: 'male'})",
                     label: '日间跑步',
                     value: 'running'
                 },

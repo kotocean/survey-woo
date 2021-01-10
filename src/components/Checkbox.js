@@ -2,7 +2,7 @@ import React from "react"
 import { connect } from 'react-redux'
 
 import { updateAnswer, updateQuestion } from "../store"
-import {isVisible, isEnabled, randomUpdateValues, mergeArrayToSet, pushArrayToSet} from "../core/Utils"
+import {isVisible, isEnabled, isDisabled, randomUpdateValues, mergeArrayToSet, pushArrayToSet} from "../core/Utils"
 
 import {
     Card,
@@ -126,7 +126,7 @@ class Checkbox extends React.Component{
                     return (
                     <div className="form-check" key={index}>
                         <label className="form-check-label">
-                            <input className="form-check-input" type="checkbox" name={this.name} value={value} checked={answer&&answer.value.includes(value)} />
+                            <input className="form-check-input" type="checkbox" name={this.name} value={value} checked={answer&&answer.value.includes(value)} disabled={isDisabled(opt.isDisabled, answer?answer.value:undefined, answers)} />
                         {opt.label}</label>
                     </div>
                 )})}
