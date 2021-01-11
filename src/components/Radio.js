@@ -28,6 +28,7 @@ class Radio extends React.Component{
     }
 
     updateOrders(orders){
+        let variables = this.props.variables
         if(!orders || orders.length<=0) return;
         orders.map(order=>{
             console.log(order)
@@ -43,7 +44,8 @@ class Radio extends React.Component{
     render(){
         let question = this.props.questions[this.name]
         let answers = this.props.answers
-        let answer = answers[this.name]        
+        let answer = answers[this.name]
+        let variables = this.props.variables        
 
         return (
             question&&<div>
@@ -75,7 +77,8 @@ const mapStateToProps = (state, ownProps) => {
     return {
       name: ownProps.name,
       answers: state.answers,
-      questions: state.questions
+      questions: state.questions,
+      variables: state.variables
     }
 }
   

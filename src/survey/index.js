@@ -14,6 +14,11 @@ class Survey extends React.Component{
         this.questions = sample.questions
         // 初始化
         store.dispatch({type:'survey/initQuestions',payload: {questions: this.questions}})
+        let variables = {
+            sex: '男',
+            money: '3000万/月'
+        }
+        store.dispatch({type:'survey/initVariables',payload: {variables}})
     }
     handleSubmit(){
         let result = validate(store.getState())

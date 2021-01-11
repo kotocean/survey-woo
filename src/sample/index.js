@@ -6,14 +6,14 @@ export const sample = {
             name: 'sex',
             type: 'radio',
             title: [{
-                value: "`标题：${question.type}单选题`",
+                value: "`标题：${variables.money}单选题`",
                 subValue: "副标题：一些补充描述的文字内容。",
                 isVisible: 'true'
             }],
             orders:[
                 {
                     type: 'assign',
-                    isEnabled: 'true',
+                    isEnabled: "variables.sex==='女'",
                     values: [
                         JSON.stringify({
                             label: '男',
