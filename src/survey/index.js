@@ -29,7 +29,7 @@ class Survey extends React.Component{
         console.log(sample)
         return (
             <Provider store={store}>
-                <div>
+                <div className="survey">
                     <div className="text-center">
                         <h4>{sample.title}</h4>
                         <p>{sample.description}</p>

@@ -2,7 +2,7 @@ import React from "react"
 import { connect } from 'react-redux'
 
 import { updateAnswer, updateQuestion } from "../store"
-import {isVisible, isEnabled, isDisabled, randomUpdateValues, mergeArrayToSet, pushArrayToSet, validate} from "../core/Utils"
+import {isInvisible, isVisible, isEnabled, isDisabled, randomUpdateValues, mergeArrayToSet, pushArrayToSet, validate} from "../core/Utils"
 
 import {
     Card, Badge,
@@ -122,7 +122,7 @@ class Checkbox extends React.Component{
         let answer = answers[this.name]
 
         return (
-        question&&<div>
+        question&&!isInvisible(question.isInvisible)&&<div>
             <Card body>
                 { question.title.map((item,index)=>
                     isVisible(item.isVisible,answers)&&<div key={index} >
@@ -136,7 +136,7 @@ class Checkbox extends React.Component{
                 { question.options&&question.options.map((opt, index)=>{
                     let value = JSON.stringify({label: opt.label, value: opt.value})
                     return (
-                    <div className="form-check" key={index}>
+                    !isInvisible(opt.isInvisible)&&<div className="form-check" key={index}>
                         <label className="form-check-label">
                             <input className="form-check-input" type="checkbox" name={this.name} value={value} checked={answer&&answer.value.includes(value)} disabled={isDisabled(opt.isDisabled, answer?answer.value:undefined, answers)} />
                         {opt.label}</label>

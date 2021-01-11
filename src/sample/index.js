@@ -46,6 +46,7 @@ export const sample = {
                 value:"`标题：复选题`",
                 isVisible: "answers['sex']==undefined||answers['sex'].value==undefined"
             }],
+            isInvisible:"true",
             orders:[
                 {
                     type: 'assign',
@@ -98,7 +99,8 @@ export const sample = {
                 {
                     isDisabled: "value&&value.includes(JSON.stringify({label: '白天打羽毛球',value: 'female'}))",
                     label: '晚上踢足球',
-                    value: 'football'
+                    value: 'football',
+                    isInvisible: "true"
                 },
                 {
                     label: '白天打羽毛球',
