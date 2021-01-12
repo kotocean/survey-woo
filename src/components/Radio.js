@@ -14,8 +14,8 @@ class Radio extends React.Component{
         super(props)
         this.handleChange = this.handleChange.bind(this);
         this.name = this.props.name
-        let question = this.props.questions[this.name]
-        this.updateOrders(question.orders)
+        this.question = this.props.questions[this.name]
+        this.updateOrders(this.question.orders)
     }
 
     handleChange(event){
@@ -24,7 +24,7 @@ class Radio extends React.Component{
         let formData = new FormData(event.currentTarget)
         let result = formData.get(this.name)
         console.log(result)
-        this.props.updateAnswer({name: this.name, result})
+        this.props.updateAnswer({name: this.name, type: this.question.type, result})
         // this.props.updateAnswer({name: 'likes', result: [result]})
     }
 
@@ -36,7 +36,7 @@ class Radio extends React.Component{
             
             if(eval(order.isEnabled)){
                 if(order.type==='assign'){
-                    this.props.updateAnswer({name: this.name, result: order.values[0]})
+                    this.props.updateAnswer({name: this.name, type: this.question.type, result: order.values[0]})
                 }
             }
         })
@@ -75,7 +75,7 @@ class Radio extends React.Component{
                             return (
                                 !isInvisible(opt.isInvisible)&&<div className="form-check" key={index}>
                                 <label className="form-check-label">
-                                    <input className="form-check-input" type="radio" name={this.name} value={value} checked={answer&&answer.value===value} disabled={isDisabled(opt.isDisabled, answer?answer.value:undefined, answers)} />
+                                    <input className="form-check-input" type="radio" name={this.name} value={value} checked={answer&&answer.value===value} disabled={isDisabled(opt.isDisabled, answer?answer.val:undefined, answers)} />
                                 {opt.label}</label>
                             </div>
                         )})}

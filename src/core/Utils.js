@@ -95,20 +95,37 @@ export const optionsIncludes = function(options, value){
     return finalResult
   }
   
-  export const isDisabled = function (expr, value, answers) {
+  export const isDisabled = function (expr, val, answers) {
     return expr!=='' && expr!==undefined && eval(expr)
   }
 
-  export const isInvisible = function (expr, value, answers) {
+  export const isInvisible = function (expr, val, answers) {
     return expr!=='' && expr!==undefined && eval(expr)
   }
 
-  export const isEnabled = function (expr, value, answers) {
+  export const isEnabled = function (expr, val, answers) {
     return expr && eval(expr)
   }
   
   export const isVisible = function (expr, answers) {
     return expr && eval(expr)
+  }
+
+  export const parseResult = function(result, type){
+    switch(type){
+      case 'radio':
+        var res = JSON.parse(result)
+        return res.value
+      case 'checkbox':
+        var values = []
+        result.forEach(r=>{
+          var res = JSON.parse(r)
+          values.push(res.value)
+        })
+        return values
+      default:
+        return result
+    }
   }
 
   export const validate = function(state){

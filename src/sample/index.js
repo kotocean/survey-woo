@@ -14,7 +14,7 @@ export const sample = {
             orders:[
                 {
                     type: 'assign',
-                    isEnabled: "variables.sex==='女'",
+                    isEnabled: "true",
                     values: [
                         JSON.stringify({
                             label: '男',
@@ -46,20 +46,17 @@ export const sample = {
             name: 'likes',
             type: 'checkbox',
             title: [{
-                value:"`标题：男-复选题`",
-                isVisible: "answers['sex']&&answers['sex'].value==JSON.stringify({label:'男',value:'male'})"
-            },{
-                value:"`标题：女-复选题`",
-                isVisible: "answers['sex']&&answers['sex'].value==JSON.stringify({label:'女',value:'female'})"
+                value:"`标题：复选题，尊敬的${answers['sex'].val=='female'?'女士':'男士'}`",
+                isVisible: "answers['sex']"
             },{
                 value:"`标题：复选题`",
-                isVisible: "answers['sex']==undefined||answers['sex'].value==undefined"
+                isVisible: "answers['sex']==undefined||answers['sex'].val==undefined"
             }],
             // isInvisible:"true",
             orders:[
                 {
                     type: 'assign',
-                    isEnabled: "answers['sex']&&answers['sex'].value==JSON.stringify({label:'男',value:'male'})",
+                    isEnabled: "answers['sex']&&answers['sex'].val=='male'",
                     values: [
                         JSON.stringify({
                             label: '晚上踢足球',
@@ -69,7 +66,7 @@ export const sample = {
                 },
                 {
                     type: 'random',
-                    isEnabled: "answers['sex']&&answers['sex'].value==JSON.stringify({label:'男',value:'male'})",
+                    isEnabled: "answers['sex']&&answers['sex'].val=='male'",
                     values: [],
                     num: 2
                 }
@@ -84,7 +81,7 @@ export const sample = {
                 },
                 {
                     type: "mutex",
-                    isEnabled: "value&&value.includes(JSON.stringify({label: '白天打羽毛球',value: 'female'}))",
+                    isEnabled: "val&&val.includes('female')",
                     options: [
                         {
                             label: '晚上踢足球',
@@ -94,7 +91,7 @@ export const sample = {
                 },
                 {
                     type: "mutex",
-                    isEnabled: "answers['sex']&&answers['sex'].value===JSON.stringify({label: '男',value: 'male'})",
+                    isEnabled: "answers['sex']&&answers['sex'].val==='male'",
                     options: [
                         {
                             label: '日间跑步',
@@ -106,17 +103,17 @@ export const sample = {
             validations:[],
             options: [
                 {
-                    isDisabled: "value&&value.includes(JSON.stringify({label: '白天打羽毛球',value: 'female'}))",
+                    isDisabled: "val&&val.includes('female')",
                     label: '晚上踢足球',
                     value: 'football',
-                    isInvisible: "true"
+                    // isInvisible: "true"
                 },
                 {
                     label: '白天打羽毛球',
                     value: 'female'
                 },
                 {
-                    isDisabled: "answers['sex']&&answers['sex'].value===JSON.stringify({label: '男',value: 'male'})",
+                    isDisabled: "answers['sex']&&answers['sex'].val==='male'",
                     label: '日间跑步',
                     value: 'running'
                 },
@@ -132,7 +129,7 @@ export const sample = {
             title: [
                 {
                     isVisible: 'true',
-                    value: "`Hobbies标题：复选题`",
+                    value: "`${question.name}标题：复选题`",
                     subValue: "副标题：一些描述内容"
                 }
             ],
@@ -148,14 +145,6 @@ export const sample = {
                     value: 'reading'
                 }
             ]
-        }
-    },
-    answers: {
-        sex: {
-            value: JSON.stringify({
-                label: '男',
-                value: 'male'
-            })
         }
     }
 }

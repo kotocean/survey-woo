@@ -2,7 +2,10 @@ import React from "react"
 import { connect } from 'react-redux'
 
 import { updateAnswer, updateQuestion } from "../store"
-import {isInvisible, isVisible, isEnabled, isDisabled, randomUpdateValues, mergeArrayToSet, pushArrayToSet} from "../core/Utils"
+import {isInvisible, isVisible, isEnabled, isDisabled, 
+    randomUpdateValues, mergeArrayToSet, pushArrayToSet,
+    parseResult
+} from "../core/Utils"
 
 import {
     Card, Badge,
@@ -15,6 +18,7 @@ class Checkbox extends React.Component{
         super(props)
         this.handleChange = this.handleChange.bind(this);
         this.name = this.props.name
+        this.question = this.props.questions[this.name]
         let answerValue = this.updateOrders()
         console.log('constructor', answerValue)
         this.updateTriggers(answerValue)
@@ -26,13 +30,12 @@ class Checkbox extends React.Component{
         let formData = new FormData(event.currentTarget)
         let result = formData.getAll(this.name)
         console.log(result)
-        this.props.updateAnswer({name: this.name, result})
+        this.props.updateAnswer({name: this.name, type:this.question.type, result})
         this.updateTriggers(result)
     }
     // 题目选中项发生变化时的动作触发事件
     updateTriggers(answerValue){
-        let question = this.props.questions[this.name]
-        let triggers = question.triggers
+        let triggers = this.question.triggers
         if(!triggers||triggers.length<=0) return;
         triggers.forEach(trigger=>{
             if(trigger.type==='transfer'){
@@ -40,14 +43,14 @@ class Checkbox extends React.Component{
                 let target = trigger.target
                 if(target.type==='checkbox'){
                     let targetOptions = this.props.questions[target.name].options
-                    let result = mergeArrayToSet(answerValue, question.options, targetOptions)
+                    let result = mergeArrayToSet(answerValue, this.question.options, targetOptions)
                     console.log(result)
                     this.props.updateQuestion({name: target.name, options: result})
                 }
             }else if(trigger.type==='mutex'){
                 console.log('mutex...')
                 // 选项间互斥
-                if(isEnabled(trigger.isEnabled, answerValue, this.props.answers)){
+                if(isEnabled(trigger.isEnabled, parseResult(answerValue, 'checkbox'), this.props.answers)){
                     let removeIndexs = []
                     for(var i in trigger.options){
                         var opt = trigger.options[i]
@@ -63,42 +66,41 @@ class Checkbox extends React.Component{
                         }
                     }
                     answerValue = newAnswerValue // 更新局部变量，处理多个mutex时store的异步更新有延时
-                    this.props.updateAnswer({name: this.name, result: newAnswerValue})
+                    this.props.updateAnswer({name: this.name, type:this.question.type, result: newAnswerValue})
                 }
             }
         })
     }
     // 关联题目的答案发生变化时，条件圈选事件处理
     updateOrders(){
-        let question = this.props.questions[this.name]
         let answers = this.props.answers
-        let orders = question.orders
+        let orders = this.question.orders
         if(!orders || orders.length<=0) return;
         let answerValue = []
         orders.forEach(order=>{
             console.log(order)
             
-            if(eval(order.isEnabled)){
+            if(isEnabled(order.isEnabled, answers[this.name]?answers[this.name].val:undefined, answers)){
                 if(order.type==='assign'){
-                    this.props.updateAnswer({name: this.name, result: order.values})
+                    this.props.updateAnswer({name: this.name, type:this.question.type, result: order.values})
                     pushArrayToSet(order.values, answerValue)
                 }else if(order.type==='random'){
                     let num = order.num
                     let values = orders.values
                     if(!values||values.length<=0){
                         values = []
-                        question.options.forEach(opt=>{
+                        this.question.options.forEach(opt=>{
                             values.push(JSON.stringify({
                                 label: opt.label,
                                 value: opt.value
                             }))
                         })
                     }
-                    let result = randomUpdateValues(num, question.options.length, values)
+                    let result = randomUpdateValues(num, this.question.options.length, values)
                     if(answers[this.name]){
                         pushArrayToSet(answers[this.name].value, result)
                     }
-                    this.props.updateAnswer({name: this.name, result})
+                    this.props.updateAnswer({name: this.name, type:this.question.type, result})
                     pushArrayToSet(result, answerValue)
                 }
             }
@@ -138,7 +140,7 @@ class Checkbox extends React.Component{
                     return (
                     !isInvisible(opt.isInvisible)&&<div className="form-check" key={index}>
                         <label className="form-check-label">
-                            <input className="form-check-input" type="checkbox" name={this.name} value={value} checked={answer&&answer.value.includes(value)} disabled={isDisabled(opt.isDisabled, answer?answer.value:undefined, answers)} />
+                            <input className="form-check-input" type="checkbox" name={this.name} value={value} checked={answer&&answer.value.includes(value)} disabled={isDisabled(opt.isDisabled, answer?answer.val:undefined, answers)} />
                         {opt.label}</label>
                     </div>
                 )})}

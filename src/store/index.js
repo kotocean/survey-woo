@@ -1,4 +1,5 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit'
+import { parseResult } from "../core/Utils"
 
 const surveySlice = createSlice({
   name: 'survey',
@@ -14,11 +15,12 @@ const surveySlice = createSlice({
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
       console.log(action)
-      let {name, result} = action.payload
+      let {name, type, result} = action.payload
       if(!state.answers[name]){
           state.answers[name]={}
       }
       state.answers[name].value = result
+      state.answers[name].val = parseResult(result, type)
     },
     updateQuestion: (state,action) => {
         console.log(action)
