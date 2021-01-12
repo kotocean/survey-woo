@@ -2,7 +2,7 @@ import React from "react"
 import { connect } from 'react-redux'
 
 import { updateAnswer, updateQuestion } from "../store"
-import {isInvisible, isVisible, isEnabled, isDisabled, randomUpdateValues, mergeArrayToSet, pushArrayToSet, validate} from "../core/Utils"
+import {isInvisible, isVisible, isEnabled, isDisabled, randomUpdateValues, mergeArrayToSet, pushArrayToSet} from "../core/Utils"
 
 import {
     Card, Badge,

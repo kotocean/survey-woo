@@ -22,6 +22,12 @@ export const sample = {
                     ]
                 }
             ],
+            validations:[
+                {
+                    type: "required",
+                    isEnabled: "true"
+                }
+            ],
             options: [
                 {
                     label: '男',
@@ -46,7 +52,7 @@ export const sample = {
                 value:"`标题：复选题`",
                 isVisible: "answers['sex']==undefined||answers['sex'].value==undefined"
             }],
-            isInvisible:"true",
+            // isInvisible:"true",
             orders:[
                 {
                     type: 'assign',

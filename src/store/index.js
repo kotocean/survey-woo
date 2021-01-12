@@ -42,7 +42,7 @@ export const store = configureStore({
   reducer: surveySlice.reducer
 })
 
-store.subscribe(()=>{
-  console.log("store.subscribe()..")
-  console.log(store.getState().answers)
-})
+// store.subscribe(()=>{
+//   console.log("store.subscribe()..")
+//   console.log(store.getState().answers)
+// })

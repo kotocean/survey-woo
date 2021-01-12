@@ -128,6 +128,10 @@ export const optionsIncludes = function(options, value){
               if(!value||value.length<=0){
                 result.push({name: name, type: validation.type})
               }
+            }else if(question.type==='radio'){
+              if(!value||value===''){
+                result.push({name: name, type: validation.type})
+              }
             }
           }
         }
