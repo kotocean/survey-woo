@@ -35,8 +35,8 @@ class Survey extends React.Component{
         return (
             <Provider store={store}>
                 <div className="survey">
-                    <div className="text-center">
-                        <h4>{sample.title}</h4>
+                    <div className="s-header">
+                        <h4 className="text-center">{sample.title}</h4>
                         <p>{sample.description}</p>
                     </div>
                     { this.questions&&Object.values(sample.questions).map((item,index)=>

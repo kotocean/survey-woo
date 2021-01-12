@@ -2,7 +2,7 @@ import React from "react"
 import { connect } from 'react-redux'
 
 import { updateAnswer, updateQuestion } from "../store"
-import {isVisible, isEnabled} from "../core/Utils"
+import {isVisible, isEnabled, isInvisible, isDisabled} from "../core/Utils"
 import {
     Card, CardTitle, CardSubtitle,
     Badge
@@ -59,7 +59,7 @@ class Radio extends React.Component{
         let variables = this.props.variables        
 
         return (
-            question&&<div>
+            question&&!isInvisible(question.isInvisible)&&<div>
                 <Card body>
                     { question.title.map((item,index)=>
                         isVisible(item.isVisible,answers)&&<div key={index} >
@@ -73,9 +73,9 @@ class Radio extends React.Component{
                         { question.options&&question.options.map((opt, index)=>{
                             let value = JSON.stringify({label: opt.label, value: opt.value})
                             return (
-                            <div className="form-check" key={index}>
+                                !isInvisible(opt.isInvisible)&&<div className="form-check" key={index}>
                                 <label className="form-check-label">
-                                    <input className="form-check-input" type="radio" name={this.name} value={value} checked={answer&&answer.value===value} />
+                                    <input className="form-check-input" type="radio" name={this.name} value={value} checked={answer&&answer.value===value} disabled={isDisabled(opt.isDisabled, answer?answer.value:undefined, answers)} />
                                 {opt.label}</label>
                             </div>
                         )})}

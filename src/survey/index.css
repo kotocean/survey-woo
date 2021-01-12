@@ -5,3 +5,13 @@ body {
     margin-top: 3px;
     margin-bottom: 5px;
 }
+.survey {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.s-header{
+    padding: 9px;
+    padding-top: 19px;
+    background-image: linear-gradient(to top, #fff,#0368da);
+}

@@ -5,6 +5,7 @@ export const sample = {
         sex: {
             name: 'sex',
             type: 'radio',
+            // isInvisible: 'true',
             title: [{
                 value: "`标题：${variables.money}单选题`",
                 subValue: "副标题：一些补充描述的文字内容。",
@@ -30,10 +31,12 @@ export const sample = {
             ],
             options: [
                 {
+                    // isDisabled: 'true',
                     label: '男',
                     value: 'male'
                 },
                 {
+                    // isInvisible: 'true',
                     label: '女',
                     value: 'female'
                 }
