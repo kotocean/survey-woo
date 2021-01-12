@@ -122,6 +122,7 @@ class Checkbox extends React.Component{
         let question = this.props.questions[this.name]
         let answers = this.props.answers
         let answer = answers[this.name]
+        let variables = this.props.variables
 
         return (
         question&&!isInvisible(question.isInvisible)&&<div>
