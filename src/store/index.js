@@ -5,7 +5,6 @@ const surveySlice = createSlice({
   initialState: {
     questions: {},
     answers: {},
-    variables: {},
   },
   reducers: {
     updateAnswer: (state,action) => {
@@ -22,13 +21,10 @@ const surveySlice = createSlice({
     initAnswers: (state, action)=>{
       state.answers = action.payload
     },
-    initVariables: (state, action)=>{
-      state.variables = action.payload
-    },
   }
 })
 
-export const { updateAnswer, updateQuestion, initQuestions, initAnswers, initVariables } = surveySlice.actions
+export const { updateAnswer, updateQuestion, initQuestions, initAnswers } = surveySlice.actions
 
 export const store = configureStore({
   reducer: surveySlice.reducer

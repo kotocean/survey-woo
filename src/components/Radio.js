@@ -51,9 +51,6 @@ const mapStateToProps = (state, ownProps) => {
       name: ownProps.name,
       answers: state.answers,
       questions: state.questions,
-      variables: state.variables,
-      controls: state.controls,
-      sample: state.sample
     }
 }
   
