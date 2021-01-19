@@ -1,5 +1,5 @@
 body {
-    padding: 9px;
+    padding: 19px;
 }
 .card {
     margin-top: 3px;
@@ -13,5 +13,5 @@ body {
 .s-header{
     padding: 9px;
     padding-top: 19px;
-    background-image: linear-gradient(to top, #fff,#0368da);
+    background-image: linear-gradient(to top, #fff, green);
 }

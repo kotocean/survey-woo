@@ -9,8 +9,8 @@ import { Button, Form } from 'antd';
 import { preHandle } from "../core/PreHandler"
 
 const layout = {
-    labelCol: { span: 8 },
-    wrapperCol: { offset: 1, span: 16 },
+    labelCol: { offset: 1, span: 8 },
+    wrapperCol: { offset: 2, span: 16 },
   };
   const tailLayout = {
     wrapperCol: { offset: 8, span: 16 },
