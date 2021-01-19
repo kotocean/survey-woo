@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Radio from "../components/Radio";
-import Checkbox from "../components/Checkbox";
+// import Checkbox from "../components/Checkbox";
 // import RadioMtrix from "../components/RadioMtrix";
 // import RadioTransposedMatrix from "../components/RadioTransposedMatrix";
 // import CheckboxMatrix from "../components/CheckboxMatrix";
@@ -9,7 +9,7 @@ import Checkbox from "../components/Checkbox";
 
 const questions = {
   radio: Radio,
-  checkbox: Checkbox,
+  // checkbox: Checkbox,
 //   checkboxMatrix: CheckboxMatrix,
 //   checkboxTransposedMatrix: CheckboxTransposedMatrix,
 //   radioMtrix: RadioMtrix,

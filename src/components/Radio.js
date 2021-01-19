@@ -1,86 +1,46 @@
 import React from "react"
 import { connect } from 'react-redux'
+import { Radio, Form } from 'antd';
 
 import { updateAnswer, updateQuestion } from "../store"
-import {isVisible, isEnabled, isInvisible, isDisabled} from "../core/Utils"
-import {
-    Card, CardTitle, CardSubtitle,
-    Badge
-  } from 'reactstrap';
 
-class Radio extends React.Component{
-
+class IRadio extends React.Component{
     constructor(props){
         super(props)
-        this.handleChange = this.handleChange.bind(this);
         this.name = this.props.name
-        this.question = this.props.questions[this.name]
-        this.updateOrders(this.question.orders)
-    }
-
-    handleChange(event){
-        console.log('form change ...')
-        // console.log(event)
-        let formData = new FormData(event.currentTarget)
-        let result = formData.get(this.name)
-        console.log(result)
-        this.props.updateAnswer({name: this.name, type: this.question.type, result})
-        // this.props.updateAnswer({name: 'likes', result: [result]})
-    }
-
-    updateOrders(orders){
-        let variables = this.props.variables
-        if(!orders || orders.length<=0) return;
-        orders.map(order=>{
-            console.log(order)
-            
-            if(eval(order.isEnabled)){
-                if(order.type==='assign'){
-                    this.props.updateAnswer({name: this.name, type: this.question.type, result: order.values[0]})
-                }
-            }
-        })
-    }
-
-    validationsIncludes(validations, type){
-        if(!validations) return false;
-        for(var i in validations){
-            if(isEnabled(validations[i].isEnabled, undefined, this.props.answers)&&validations[i].type===type){
-                return true
-            }
-        }
-        return false
     }
     
-    render(){
-        let question = this.props.questions[this.name]
-        let answers = this.props.answers
-        let answer = answers[this.name]
-        let variables = this.props.variables        
+    onChange = e => {
+        console.log('radio checked', e.target.value);
+        this.props.updateAnswer({name: this.name, value: e.target.value, label: e.target.label})
+    };
 
+
+
+    render(){
+        const radioStyle = {
+            display: 'block',
+            height: '30px',
+            lineHeight: '30px',
+        };
+        const question = this.props.questions[this.name];
+        const answers = this.props.answers
+        const { value } = answers[this.name];
         return (
-            question&&!isInvisible(question.isInvisible)&&<div>
-                <Card body>
-                    { question.title.map((item,index)=>
-                        isVisible(item.isVisible,answers)&&<div key={index} >
-                                <CardTitle tag="h5">{ eval(item.value) }
-                                {this.validationsIncludes(question.validations, 'required')&&<Badge color="warning">必填</Badge>}
-                                </CardTitle>
-                                <CardSubtitle tag="h6" className="mb-2 text-muted">{ item.subValue} </CardSubtitle>
-                            </div>
-                    )}
-                    <form onChange={this.handleChange}>
-                        { question.options&&question.options.map((opt, index)=>{
-                            let value = JSON.stringify({label: opt.label, value: opt.value})
-                            return (
-                                !isInvisible(opt.isInvisible)&&<div className="form-check" key={index}>
-                                <label className="form-check-label">
-                                    <input className="form-check-input" type="radio" name={this.name} value={value} checked={answer&&answer.value===value} disabled={isDisabled(opt.isDisabled, answer?answer.val:undefined, answers)} />
-                                {opt.label}</label>
-                            </div>
-                        )})}
-                    </form>
-                </Card>
+            <div>
+                {!eval(question.invisible)&&<Form.Item
+                    label={question.title}
+                    name={this.name}
+                    rules={[{ required: true, message: '请输入你的性别!' }]}
+                >
+                    <Radio.Group onChange={this.onChange} value={value}>
+                    { question.options.map((opt,index) => 
+                        <Radio key={index} style={radioStyle} value={opt.value} disabled={eval(opt.disabled)} label={opt.label}>
+                            { opt.label }
+                        </Radio>
+                    ) }
+                    </Radio.Group>
+                </Form.Item>}
             </div>
         )
     }
@@ -91,10 +51,12 @@ const mapStateToProps = (state, ownProps) => {
       name: ownProps.name,
       answers: state.answers,
       questions: state.questions,
-      variables: state.variables
+      variables: state.variables,
+      controls: state.controls,
+      sample: state.sample
     }
 }
   
 const mapDispatchToProps = { updateAnswer, updateQuestion }
   
-export default connect(mapStateToProps, mapDispatchToProps)(Radio)
+export default connect(mapStateToProps, mapDispatchToProps)(IRadio)

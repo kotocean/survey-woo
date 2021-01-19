@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import './App.css';
+import './App.less';
 
 // import Survey from './survey'
 import { Link } from 'react-router-dom'
@@ -13,7 +13,6 @@ function App() {
             Edit <code>src/App.js</code> and save to reload.
           </p>
           <Link className="App-link" to="/survey" >Show Survey</Link>
-          <Link className="App-link" to="/counter" >Counter Test</Link>
         </header>
       </div>
   );

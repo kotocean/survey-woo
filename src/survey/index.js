@@ -5,33 +5,36 @@ import { Provider } from 'react-redux'
 import {store} from "../store"
 import Question from "./Question"
 import { sample } from "../sample"
-import { Button } from 'reactstrap';
-import { validate } from "../core/Utils"
+import { Button, Form } from 'antd';
+import { preHandle } from "../core/PreHandler"
+
+const layout = {
+    labelCol: { span: 8 },
+    wrapperCol: { offset: 1, span: 16 },
+  };
+  const tailLayout = {
+    wrapperCol: { offset: 8, span: 16 },
+  };
 
 class Survey extends React.Component{
     constructor(props){
         super(props)
-        this.questions = sample.questions
+        let {result, answers} = preHandle(sample.questions)
+        this.questions = result
         // 初始化
-        store.dispatch({type:'survey/initQuestions',payload: {questions: this.questions}})
-        let variables = {
-            sex: '男',
-            money: '3000万/月'
-        }
-        store.dispatch({type:'survey/initVariables',payload: {variables}})
+        store.dispatch({type:'survey/initQuestions',payload: this.questions })
+        store.dispatch({type:'survey/initAnswers', payload: answers})
     }
-    handleSubmit(){
-        let result = validate(store.getState())
-        if(result.length>0){
-            // 验证不通过
-            alert(JSON.stringify(result))
-        }else{
-            // 验证通过，可以提交问卷答案
-            alert(JSON.stringify(store.getState().answers))
-        }
-    }
+    onFinish = (values) => {
+        console.log('Success:', values);
+        console.log('State:', store.getState())
+    };
+    
+    onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    };
+
     render(){
-        console.log(sample)
         return (
             <Provider store={store}>
                 <div className="survey">
@@ -39,10 +42,24 @@ class Survey extends React.Component{
                         <h4 className="text-center">{sample.title}</h4>
                         <p>{sample.description}</p>
                     </div>
-                    { this.questions&&Object.values(sample.questions).map((item,index)=>
+                <Form 
+                    {...layout}
+                    name="basic"
+                    initialValues={{
+                    remember: true,
+                    }}
+                    onFinish={this.onFinish}
+                    onFinishFailed={this.onFinishFailed}
+                >
+                    { this.questions&&Object.values(this.questions).map((item,index)=>
                         <Question key={index} name={item.name} type={item.type} />
                     )}
-                    <Button color="primary" onClick={this.handleSubmit} block>提交答案</Button>                
+                    <Form.Item {...tailLayout}>
+                        <Button type="primary" htmlType="submit">
+                        提交
+                        </Button>
+                    </Form.Item>
+                </Form>
                 </div>
             </Provider>
         )

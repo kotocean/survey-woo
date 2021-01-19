@@ -1,50 +1,35 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit'
-import { parseResult } from "../core/Utils"
 
 const surveySlice = createSlice({
   name: 'survey',
   initialState: {
     questions: {},
     answers: {},
-    variables: {}
+    variables: {},
   },
   reducers: {
     updateAnswer: (state,action) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      console.log(action)
-      let {name, type, result} = action.payload
-      if(!state.answers[name]){
-          state.answers[name]={}
-      }
-      state.answers[name].value = result
-      state.answers[name].val = parseResult(result, type)
+      let {name} = action.payload
+      state.answers[name] = action.payload
     },
     updateQuestion: (state,action) => {
-        console.log(action)
-        let {name, options} = action.payload
-        state.questions[name].options = options
+      let {name} = action.payload
+      state.questions[name] = action.payload
     },
     initQuestions: (state, action)=>{
-        console.log(action)
-        state.questions = action.payload.questions
+      state.questions = action.payload
+    },
+    initAnswers: (state, action)=>{
+      state.answers = action.payload
     },
     initVariables: (state, action)=>{
-        console.log(action)
-        state.variables = action.payload.variables
-    }
+      state.variables = action.payload
+    },
   }
 })
 
-export const { updateAnswer, updateQuestion, initQuestions, initVariables } = surveySlice.actions
+export const { updateAnswer, updateQuestion, initQuestions, initAnswers, initVariables } = surveySlice.actions
 
 export const store = configureStore({
   reducer: surveySlice.reducer
 })
-
-// store.subscribe(()=>{
-//   console.log("store.subscribe()..")
-//   console.log(store.getState().answers)
-// })

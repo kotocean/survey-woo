@@ -6,7 +6,6 @@ import reportWebVitals from './reportWebVitals';
 import { Route, BrowserRouter as Router, Switch} from 'react-router-dom'
 import NotFound from "./components/NotFound"
 import Survey from "./survey"
-import CounterTest from "./survey/CounterTest"
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const routing = (
@@ -15,7 +14,6 @@ const routing = (
       <Switch>
         <Route exact path="/" component={App} />
         <Route path="/survey" component={Survey} />
-        <Route path="/counter" component={CounterTest} />
         <Route component={NotFound} />
       </Switch>
     </div>
