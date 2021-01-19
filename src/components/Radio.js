@@ -31,7 +31,7 @@ class IRadio extends React.Component{
                 {!eval(question.invisible)&&<Form.Item
                     label={question.title}
                     name={this.name}
-                    rules={[{ required: true, message: '请输入你的性别!' }]}
+                    rules={[{ required: eval(question.required), message: '请输入你的性别!' }]}
                 >
                     <Radio.Group onChange={this.onChange} value={value}>
                     { question.options.map((opt,index) => 

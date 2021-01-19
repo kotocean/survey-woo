@@ -6,14 +6,7 @@ export const sample = {
             name: 'sex',
             type: 'radio',
             title: '单选题',
-            events: [
-                {
-                    condition: "value==='male'",
-                    type: 'disableOptions',
-                    target: 'likes',
-                    options: [0, 1]
-                }
-            ],
+            required: 'true',
             options: [
                 {
                     label: '男',
